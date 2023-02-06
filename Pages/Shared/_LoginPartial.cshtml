@@ -2,6 +2,7 @@
 @using WebApp1.Models;
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

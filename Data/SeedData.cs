@@ -36,7 +36,7 @@ namespace WebApp1.Data
                 {
                     UserName = "aa@aa.aa",
                     Email = "aa@aa.aa",
-                    UntilDate = new DateTime(2022, 12, 25)
+                    UntilDate = new DateTime(2050, 12, 25)
                 };
 
                 var result = await userManager.CreateAsync(user);
