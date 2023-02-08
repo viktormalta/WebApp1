@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using WebApp1.Models;
+using WebApp1.Areas.Identity.Models;
 
 namespace WebApp1.Areas.Identity.Pages.Account
 {
@@ -120,7 +120,10 @@ namespace WebApp1.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid && Input.UntilDate > DateTime.Now)
             {
-                var user = CreateUser();
+                var user = new ApplicationUser
+                {
+                    UntilDate = Input.UntilDate
+                };
                 if (await _roleManager.FindByNameAsync("User") == null)
                 {
                     await _roleManager.CreateAsync(new IdentityRole("User"));
@@ -129,14 +132,14 @@ namespace WebApp1.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 await _userManager.AddToRoleAsync(user, "User");
+                Input.UntilDate = user.UntilDate;
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var untilDate = Input.UntilDate;
-                    user.UntilDate = untilDate;
+                    
                     
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(

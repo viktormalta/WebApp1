@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using WebApp1.Data;
 using WebApp1.Areas.Identity.Models;
 
-namespace WebApp1.Pages.Users
+namespace WebApp1.Areas.Identity.Pages.Account
 {
-    public class IndexModel : PageModel
+    public class UsersListModel : PageModel
     {
         private readonly WebApp1.Areas.Identity.Data.ApplicationDbContext _context;
 
-        public IndexModel(WebApp1.Areas.Identity.Data.ApplicationDbContext context)
+        public UsersListModel(WebApp1.Areas.Identity.Data.ApplicationDbContext context)
         {
             _context = context;
         }

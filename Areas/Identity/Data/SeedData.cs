@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using WebApp1.Models;
+using WebApp1.Areas.Identity.Models;
+using WebApp1.Areas.Identity.Data;
 
-namespace WebApp1.Data
+namespace WebApp1.Areas.Identity.Data
 {
     public class SeedData
     {
@@ -53,7 +54,7 @@ namespace WebApp1.Data
                 {
                     UserName = "mm@mm.mm",
                     Email = "mm@mm.mm",
-                    UntilDate = new DateTime(2023, 12, 25)
+                    UntilDate = new DateTime(2050, 12, 25)
                 };
 
                 var result = await userManager.CreateAsync(user);

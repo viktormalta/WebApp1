@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using WebApp1.Data;
+using WebApp1.Areas.Identity.Data;
+using WebApp1.Areas.Identity.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     //.AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddIdentity<WebApp1.Models.ApplicationUser, IdentityRole>(
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
 options => {
     options.Stores.MaxLengthForKeys = 128;
 })
@@ -51,9 +52,9 @@ using (var scope = app.Services.CreateScope()) {
 
     var context = services.GetRequiredService<ApplicationDbContext>();    
     
-    context.Database.Migrate();
-
-    var userMgr = services.GetRequiredService<UserManager<WebApp1.Models.ApplicationUser>>();  
+    //context.Database.Migrate();
+    context.Database.EnsureCreated();
+    var userMgr = services.GetRequiredService<UserManager<ApplicationUser>>();  
     var roleMgr = services.GetRequiredService<RoleManager<IdentityRole>>();  
 
     SeedData.Initialize(context, userMgr, roleMgr).Wait();

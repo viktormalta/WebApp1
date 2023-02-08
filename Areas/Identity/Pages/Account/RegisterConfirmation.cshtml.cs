@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using WebApp1.Models;
+using WebApp1.Areas.Identity.Models;
 
 namespace WebApp1.Areas.Identity.Pages.Account
 {

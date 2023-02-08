@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using WebApp1.Models;
+@using WebApp1.Areas.Identity.Models
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject RoleManager<IdentityRole> RoleManager
@@ -7,6 +7,12 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" title="Manage">Register new user</a>
+            </li>
+        }
     <li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
     </li>
@@ -15,6 +21,7 @@
             <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
         </form>
     </li>
+    
 }
 else
 {

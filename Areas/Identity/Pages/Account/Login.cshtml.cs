@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using WebApp1.Models;
+using WebApp1.Areas.Identity.Models;
 
 namespace WebApp1.Areas.Identity.Pages.Account
 {
@@ -114,63 +114,79 @@ namespace WebApp1.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
-                if (user.UntilDate > DateTime.Now)
+                
+                if (user != null)
                 {
-                    var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                    if (result.Succeeded)
-                    {
-                        if (await _signInManager.UserManager.IsInRoleAsync(user,"Admin"))
+                    if (user.UntilDate > DateTime.Now)
+                    { 
+                        var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                        
+                        if (result.Succeeded)
                         {
-                            _logger.LogInformation("User logged in.");
-                            return RedirectToPage("./Admin");
-                            if (result.RequiresTwoFactor)
+                            if (await _signInManager.UserManager.IsInRoleAsync(user,"Admin"))
                             {
-                                return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                                        _logger.LogInformation("User logged in.");
+                                        return RedirectToPage("./Admin");
+                                        if (result.RequiresTwoFactor)
+                                        {
+                                            return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                                        }
+                                        if (result.IsLockedOut)
+                                        {
+                                            _logger.LogWarning("User account locked out.");
+                                            return RedirectToPage("./Lockout");
+                                        }
+                                        else
+                                        {   
+                                            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                                            return Page();
+                                        }
                             }
-                            if (result.IsLockedOut)
+                            else if(await _signInManager.UserManager.IsInRoleAsync(user,"User"))
                             {
-                                _logger.LogWarning("User account locked out.");
-                                return RedirectToPage("./Lockout");
-                            }
-                            else
-                            {   
-                                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                                return Page();
+                                        _logger.LogInformation("User logged in.");
+                                        return RedirectToPage("./User");
+                                        if (result.RequiresTwoFactor)
+                                        {
+                                            return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                                        }
+                                        if (result.IsLockedOut)
+                                        {
+                                            _logger.LogWarning("User account locked out.");
+                                            return RedirectToPage("./Lockout");
+                                        }
+                                        else
+                                        {   
+
+                                            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                                            return Page();
+                                        }
                             }
                         }
-                        else if(await _signInManager.UserManager.IsInRoleAsync(user,"User"))
+                        else
                         {
-                            _logger.LogInformation("User logged in.");
-                            return RedirectToPage("./User");
-                            if (result.RequiresTwoFactor)
-                            {
-                                return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                            }
-                            if (result.IsLockedOut)
-                            {
-                                _logger.LogWarning("User account locked out.");
-                                return RedirectToPage("./Lockout");
-                            }
-                            else
-                            {   
+                                
                                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                                 return Page();
-                            }
                         }
                     }
-                    
-                
-                    
+                    else
+                {
+                    ModelState.AddModelError(string.Empty, "User date expired.");
+                    return Page();
+                }
                 }
                 else
-                    {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return Page();
-                    }
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
             }
-
+                    
+        
             // If we got this far, something failed, redisplay form
             return Page();
-        }
+            }
     }
 }
+

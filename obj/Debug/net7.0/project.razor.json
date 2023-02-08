@@ -18745,6 +18745,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\vikto\\GIK2PG\\authentication\\WebApp1\\Areas\\Identity\\Pages\\Account\\UsersList.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\Account\\UsersList.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\vikto\\GIK2PG\\authentication\\WebApp1\\Areas\\Identity\\Pages\\_ViewImports.cshtml",
       "TargetPath": "Areas\\Identity\\Pages\\_ViewImports.cshtml",
       "FileKind": "mvc"
@@ -18752,6 +18757,11 @@
     {
       "FilePath": "c:\\Users\\vikto\\GIK2PG\\authentication\\WebApp1\\Pages\\Users\\Index.cshtml",
       "TargetPath": "Pages\\Users\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\vikto\\GIK2PG\\authentication\\WebApp1\\Areas\\Identity\\Pages\\Account\\AccessDenied.cshtml",
+      "TargetPath": "Areas\\Identity\\Pages\\Account\\AccessDenied.cshtml",
       "FileKind": "mvc"
     },
     {
