@@ -11,6 +11,4 @@ public class Revenue
     public string RevenueName { get; set; }
     public int Hours { get; set; }
     public double HourPrice { get; set; }
-    public Computation Computation { get; set; }
-
 }

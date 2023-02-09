@@ -17,8 +17,8 @@ public class ApplicationDbContext : IdentityDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Computation>().ToTable("Computation").HasMany( c => c.Revenues).WithOne(e => e.Computation);
-            modelBuilder.Entity<Revenue>().ToTable("Revenue").Ignore( x=> x.Computation);
+            modelBuilder.Entity<Computation>().ToTable("Computation");
+            modelBuilder.Entity<Revenue>().ToTable("Revenue");
             base.OnModelCreating(modelBuilder);
         }
     
